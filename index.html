@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=auto">
     <title>Simple Side-Scrolling Game</title>
 
     <!-- Use a local copy if CDN fails -->
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.65.0/dist/phaser.js" onerror="phaserLoadError()"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.js" onerror="phaserLoadError()"></script>
     <script>
         function phaserLoadError() {
             // Fallback to a local copy of Phaser
@@ -15,10 +15,10 @@
     </script>
 
     <!-- Add a local copy of Phaser (downloaded from the Phaser GitHub repository) -->
-    <script src="phaser.js"></script>
+    <script type="module" src="phaser.js"></script>
 
     <style>
-        body { margin: 0; }
+        body { margin: auto; }
     </style>
 </head>
 <body>
