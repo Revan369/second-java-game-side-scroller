@@ -4,7 +4,7 @@ const CANVAS_WIDTH = canvas.width = window.innerWidth;
 const CANVAS_HEIGHT = canvas.height = window.innerHeight;
 
 const playerImage = new Image();
-playerImage.src = '/Users/chrisdiluca/second-java-game-side-scroller/Samurai_Spritelist .png';
+playerImage.src = 'https://github.com/Revan369/second-java-game-side-scroller/blob/a9d3c868471b8a18b5c1be4d4817538747a64534/Samurai_Spritelist%20.png';
 const spriteWidth = 128;
 const spriteHeight = 128;
 let frameX = 0;
