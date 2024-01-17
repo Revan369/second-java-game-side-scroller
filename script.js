@@ -41,7 +41,7 @@ const player = {
   speed: 5,
   isJumping: false,
   isJumpAnimationPlayed: true, // Set to true initially
-  jumpHeight: 200,
+  jumpHeight: 10,
   isAttacking: false,
   isAttackAnimationPlayed: true, // Set to true initially
   isMoving: false,
@@ -55,17 +55,18 @@ function handleKeyDown(e) {
   } else if (e.code === 'Space' && !player.isJumping && player.isJumpAnimationPlayed) {
     player.isJumping = true;
     player.isJumpAnimationPlayed = false;
-    jump();
   } else if (e.code === 'KeyA' && !player.isAttacking && player.isAttackAnimationPlayed) {
     player.isAttacking = true;
     player.isAttackAnimationPlayed = false;
-    attack();
   }
 }
 
 function handleKeyUp(e) {
   if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
     player.isMoving = false;
+  } else if (e.code === 'KeyA') {
+    player.isAttacking = false;
+    player.isAttackAnimationPlayed = true; // Set the flag to true for the next attack
   }
 }
 
@@ -76,7 +77,7 @@ function handleTouchStart(e) {
     if (!player.isJumping && player.isJumpAnimationPlayed) {
       player.isJumping = true;
       player.isJumpAnimationPlayed = false;
-      jump();
+      
     }
   }
 }
@@ -91,6 +92,7 @@ function jump() {
     if (player.y <= CANVAS_HEIGHT - spriteHeight - player.jumpHeight) {
       player.isJumping = false;
       player.y = CANVAS_HEIGHT - spriteHeight;
+      player.isJumpAnimationPlayed = true; // Set the flag to true for the next jump
     }
   }
 }
@@ -101,6 +103,8 @@ function attack() {
     frameX = spriteWidth * (gameFrame % spriteAnimations['knifeattack'].loc.length);
     if (gameFrame % spriteAnimations['knifeattack'].loc.length === staggerFrames - 1) {
       player.isAttacking = false;
+      player.isAttackAnimationPlayed = true; // Set the flag to true for the next attack
+      gameFrame = 0;
     }
   }
 }
@@ -108,12 +112,12 @@ function attack() {
 function animate() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  if (player.isAttacking) {
-    frameY = spriteAnimations['knifeattack'].loc[0].y;
-    frameX = spriteWidth * (gameFrame % spriteAnimations['knifeattack'].loc.length);
-  } else if (player.isJumping) {
+  if (player.isJumping) {
     frameY = spriteAnimations['jump'].loc[0].y;
     frameX = spriteWidth * (gameFrame % spriteAnimations['jump'].loc.length);
+  } else if (player.isAttacking) {
+    frameY = spriteAnimations['knifeattack'].loc[0].y;
+    frameX = spriteWidth * (gameFrame % spriteAnimations['knifeattack'].loc.length);
   } else if (player.isMoving) {
     frameY = spriteAnimations['walk'].loc[0].y;
     frameX = spriteWidth * (gameFrame % spriteAnimations['walk'].loc.length);
@@ -143,8 +147,9 @@ function animate() {
 }
 
 function gameLoop() {
+  jump();
+  attack();
   animate();
   requestAnimationFrame(gameLoop);
 }
-
 gameLoop();
